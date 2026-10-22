@@ -1,0 +1,445 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MR Clothing | Admin Panel</title>
+
+    <!-- Tailwind CSS CDN, as required by the project prompt -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+    <!-- ==================== LOGIN PAGE ==================== -->
+    <main id="loginPage" class="login-page">
+        <section class="login-card">
+
+            <!-- MR logo -->
+            <div class="logo login-logo">
+                <div class="logo-initials">MR</div>
+                <div>
+                    <h1 class="logo-name">Men's Ready-made</h1>
+                    <p class="brand-subtitle">CLOTHING ADMIN</p>
+                </div>
+            </div>
+
+            <h2 class="login-heading">Welcome Back</h2>
+            <p class="muted-text">Enter your admin password to continue.</p>
+
+            <form id="loginForm">
+                <label for="password" class="form-label">
+                    Admin Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    class="form-input"
+                    placeholder="Enter admin password"
+                    autocomplete="current-password"
+                    required
+                >
+
+                <p id="errorMessage" class="error-message hidden" role="alert">
+                    Incorrect password. Please try again.
+                </p>
+
+                <button type="submit" class="primary-button full-width">
+                    Login to Dashboard
+                </button>
+            </form>
+
+            <p class="login-note">
+                Authorized administrators only.
+            </p>
+        </section>
+    </main>
+
+
+    <!-- ==================== ADMIN DASHBOARD ==================== -->
+    <div id="dashboardPage" class="dashboard-layout hidden">
+
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar">
+
+            <!-- MR logo in dashboard -->
+            <div class="logo sidebar-logo">
+                <div class="logo-initials">MR</div>
+                <div>
+                    <h2 class="logo-name">Men's Ready-made</h2>
+                    <p class="brand-subtitle">ADMIN PANEL</p>
+                </div>
+            </div>
+
+            <p class="sidebar-label">MAIN MENU</p>
+
+            <nav class="sidebar-nav" aria-label="Main navigation">
+                <button
+                    type="button"
+                    class="nav-button active"
+                    data-section="productsSection"
+                >
+                    <span aria-hidden="true">▦</span>
+                    Products
+                </button>
+
+                <button
+                    type="button"
+                    class="nav-button"
+                    data-section="ordersSection"
+                >
+                    <span aria-hidden="true">▤</span>
+                    Orders
+                </button>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <p class="sidebar-help">Men's Clothing Store</p>
+                <button type="button" id="logoutButton" class="logout-button">
+                    ↪ Logout
+                </button>
+            </div>
+        </aside>
+
+
+        <!-- Main content -->
+        <main class="main-content">
+
+            <header class="topbar">
+                <button
+                    type="button"
+                    id="menuButton"
+                    class="menu-button"
+                    aria-label="Toggle sidebar"
+                    aria-expanded="false"
+                >
+                    ☰
+                </button>
+
+                <div>
+                    <p class="topbar-eyebrow">MR CLOTHING STORE</p>
+                    <h1 id="pageTitle" class="page-title">Product Management</h1>
+                </div>
+
+                <div class="admin-badge">
+                    <span class="admin-dot"></span>
+                    Administrator
+                </div>
+            </header>
+
+
+            <!-- ==================== PRODUCTS SECTION ==================== -->
+            <section id="productsSection" class="content-section">
+
+                <div class="stats-grid">
+                    <article class="stat-card">
+                        <p class="stat-label">Total Products</p>
+                        <p id="totalProducts" class="stat-value">0</p>
+                        <p class="stat-description">Products in inventory</p>
+                    </article>
+
+                    <article class="stat-card">
+                        <p class="stat-label">Total Orders</p>
+                        <p id="totalOrders" class="stat-value">0</p>
+                        <p class="stat-description">Orders recorded</p>
+                    </article>
+
+                    <article class="stat-card">
+                        <p class="stat-label">Pending Orders</p>
+                        <p id="pendingOrders" class="stat-value">0</p>
+                        <p class="stat-description">Awaiting processing</p>
+                    </article>
+                </div>
+
+                <div class="section-heading">
+                    <div>
+                        <h2 class="section-title">Product Inventory</h2>
+                        <p class="muted-text">
+                            Add, edit and manage your clothing products.
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        id="addProductButton"
+                        class="primary-button"
+                    >
+                        + Add Product
+                    </button>
+                </div>
+
+
+                <!-- Add/Edit Product Form -->
+                <section id="productFormCard" class="panel-card hidden">
+                    <div class="panel-heading">
+                        <div>
+                            <h3 id="productFormTitle" class="panel-title">
+                                Add New Product
+                            </h3>
+                            <p class="muted-text">
+                                Enter the product details below.
+                            </p>
+                        </div>
+
+                        <button
+                            type="button"
+                            id="cancelProductButton"
+                            class="secondary-button"
+                        >
+                            Cancel
+                        </button>
+                    </div>
+
+                    <form id="productForm">
+                        <input type="hidden" id="productId">
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="productName" class="form-label">
+                                    Product Name *
+                                </label>
+                                <input
+                                    id="productName"
+                                    class="form-input"
+                                    type="text"
+                                    maxlength="100"
+                                    placeholder="e.g. Classic Cotton Shirt"
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productPrice" class="form-label">
+                                    Price (₹) *
+                                </label>
+                                <input
+                                    id="productPrice"
+                                    class="form-input"
+                                    type="number"
+                                    min="0.01"
+                                    step="0.01"
+                                    placeholder="e.g. 799"
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productCategory" class="form-label">
+                                    Category *
+                                </label>
+                                <select
+                                    id="productCategory"
+                                    class="form-input"
+                                    required
+                                >
+                                    <option value="">Select category</option>
+                                    <option value="Shirt">Shirt</option>
+                                    <option value="T-Shirt">T-Shirt</option>
+                                    <option value="Jeans">Jeans</option>
+                                    <option value="Formal Pant">Formal Pant</option>
+                                    <option value="Jacket">Jacket</option>
+                                    <option value="Trousers">Trousers</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productImage" class="form-label">
+                                    Image URL (optional)
+                                </label>
+                                <input
+                                    id="productImage"
+                                    class="form-input"
+                                    type="url"
+                                    placeholder="https://example.com/image.jpg"
+                                >
+                            </div>
+
+                            <div class="form-group full-span">
+                                <label for="productDescription" class="form-label">
+                                    Description *
+                                </label>
+                                <textarea
+                                    id="productDescription"
+                                    class="form-input"
+                                    rows="3"
+                                    maxlength="1000"
+                                    placeholder="Describe the product..."
+                                    required
+                                ></textarea>
+                            </div>
+
+                            <fieldset class="form-group full-span">
+                                <legend class="form-label">Available Sizes *</legend>
+
+                                <div class="size-options">
+                                    <label class="size-option">
+                                        <input type="checkbox" name="productSize" value="S">
+                                        <span>S</span>
+                                    </label>
+
+                                    <label class="size-option">
+                                        <input type="checkbox" name="productSize" value="M">
+                                        <span>M</span>
+                                    </label>
+
+                                    <label class="size-option">
+                                        <input type="checkbox" name="productSize" value="L">
+                                        <span>L</span>
+                                    </label>
+
+                                    <label class="size-option">
+                                        <input type="checkbox" name="productSize" value="XL">
+                                        <span>XL</span>
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <p id="productFormError" class="error-message hidden" role="alert"></p>
+
+                        <div class="form-actions">
+                            <button type="submit" class="primary-button">
+                                Save Product
+                            </button>
+
+                            <button
+                                type="button"
+                                id="resetProductButton"
+                                class="secondary-button"
+                            >
+                                Reset Form
+                            </button>
+                        </div>
+                    </form>
+                </section>
+
+
+                <!-- Product Table -->
+                <section class="panel-card">
+                    <div class="table-toolbar">
+                        <div>
+                            <h3 class="panel-title">All Products</h3>
+                            <p class="muted-text">
+                                Products saved in this browser.
+                            </p>
+                        </div>
+
+                        <input
+                            type="search"
+                            id="productSearch"
+                            class="form-input search-input"
+                            placeholder="Search products..."
+                            aria-label="Search products"
+                        >
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Sizes</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTableBody"></tbody>
+                        </table>
+                    </div>
+
+                    <p id="productsEmptyMessage" class="empty-message hidden">
+                        No products found. Add your first product.
+                    </p>
+                </section>
+            </section>
+
+
+            <!-- ==================== ORDERS SECTION ==================== -->
+            <section id="ordersSection" class="content-section hidden">
+
+                <div class="stats-grid">
+                    <article class="stat-card">
+                        <p class="stat-label">Total Orders</p>
+                        <p id="ordersPageTotal" class="stat-value">0</p>
+                        <p class="stat-description">All recorded orders</p>
+                    </article>
+
+                    <article class="stat-card">
+                        <p class="stat-label">Pending</p>
+                        <p id="ordersPagePending" class="stat-value">0</p>
+                        <p class="stat-description">Awaiting processing</p>
+                    </article>
+
+                    <article class="stat-card">
+                        <p class="stat-label">Delivered</p>
+                        <p id="deliveredOrders" class="stat-value">0</p>
+                        <p class="stat-description">Successfully delivered</p>
+                    </article>
+                </div>
+
+                <div class="section-heading">
+                    <div>
+                        <h2 class="section-title">Order Management</h2>
+                        <p class="muted-text">
+                            View customer orders and update their status.
+                        </p>
+                    </div>
+                </div>
+
+                <section class="panel-card">
+                    <div class="table-toolbar">
+                        <div>
+                            <h3 class="panel-title">All Orders</h3>
+                            <p class="muted-text">
+                                Order information and delivery progress.
+                            </p>
+                        </div>
+
+                        <input
+                            type="search"
+                            id="orderSearch"
+                            class="form-input search-input"
+                            placeholder="Search orders..."
+                            aria-label="Search orders"
+                        >
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Order Details</th>
+                                    <th>Customer</th>
+                                    <th>Products</th>
+                                    <th>Total</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTableBody"></tbody>
+                        </table>
+                    </div>
+
+                    <p id="ordersEmptyMessage" class="empty-message hidden">
+                        No orders found.
+                    </p>
+                </section>
+            </section>
+
+            <footer class="page-footer">
+                MR Clothing Admin Panel · Data stored locally in this browser
+            </footer>
+        </main>
+    </div>
+
+    <!-- Complete JavaScript application -->
+    <script src="admin.js"></script>
+</body>
+</html>
